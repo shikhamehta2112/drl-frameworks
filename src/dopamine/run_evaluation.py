@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 r"""The entry point for running a Dopamine agent.
-
 """
 
 from __future__ import absolute_import
@@ -26,12 +25,13 @@ from absl import flags
 
 from dopamine.discrete_domains import run_experiment
 import checkpoint_runner
+from environments.cartpole2 import CartPoleEnv2
 
 import tensorflow as tf
 
 import os
 import time
-
+import gym
 
 flags.DEFINE_string('base_dir', None,
                     'Base directory to host all required sub-directories.')
@@ -46,10 +46,13 @@ flags.DEFINE_multi_string(
 
 FLAGS = flags.FLAGS
 
+#gym.envs.register(
+#     id='Cartpole2-v0',
+#     entry_point='environments.cartpole2:CartPoleEnv2'
+#)
 
 def main(unused_argv):
     """Main method.
-
     Args:
       unused_argv: Arguments (unused).
     """

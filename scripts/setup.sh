@@ -1,6 +1,7 @@
 echo "--- STARTING SETUP ---"
 # Init Miniconda in the script
-source ~/miniconda3/etc/profile.d/conda.sh
+
+source ~/anaconda3/etc/profile.d/conda.sh
 
 # Create environments
 echo "--- SETTING UP DOPAMINE ENVIRONMENT ---"
