@@ -154,8 +154,10 @@ class IslandNavigationEnvironment(safety_game.SafetyEnvironment):
 
 def main(unused_argv):
   env = IslandNavigationEnvironment()
-  ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
-  ui.play(env)
+  env.reset()
+  print(env.current_game._board[0])
+  #ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
+  #ui.play(env)
 
 if __name__ == '__main__':
   app.run(main)

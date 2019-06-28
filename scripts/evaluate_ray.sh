@@ -7,11 +7,11 @@ echo
 echo "--- STARTING RAY CARTPOLE EXPERIMENTS ---"
 mkdir -p results/cartpole/runtime
 echo
-for fullfile in src/ray/experiments/cartpole/ray_appo_cpu_cp1.yml; do 
+for fullfile in src/ray/experiments/cartpole/a2c/ray_a2c_cpu_cp101.yml; do 
     filename=$(basename -- "$fullfile")
     experiment="${filename%.*}"
     echo "--- STARTING EXPERIMENT ${experiment} --- "
-    python src/ray/run_evaluation.py -f="src/ray/experiments/cartpole/ray_appo_cpu_cp1.yml"
+    python src/ray/run_evaluation.py -f="src/ray/experiments/cartpole/a2c/ray_a2c_cpu_cp101.yml"
     echo "--- EXPERIMENT ${experiment} COMPLETED --- "
     echo
 done

@@ -1,8 +1,12 @@
-from ray.rllib.agents import (ppo, dqn)
+from ray.rllib.agents import (ppo, dqn, a3c)
 from ray.rllib.agents.trainer import Trainer
 from ray.rllib.utils.annotations import override
 from ray.rllib.evaluation.metrics import collect_metrics
 from ray.rllib.agents import registry as reg
+
+import ray
+import ray.rllib.agents.ppo as ppo
+from ray.rllib.models import ModelCatalog, Model
 
 
 class CustomDQNTrainer(dqn.DQNTrainer):
@@ -13,7 +17,9 @@ class CustomDQNTrainer(dqn.DQNTrainer):
     """
     @override(dqn.DQNTrainer)
     def _init(self, config, env_creator):
+        print("config",config)
         super()._init(config, env_creator)
+        
 
     @override(dqn.DQNTrainer)
     def _evaluate(self):
@@ -32,6 +38,39 @@ class CustomDQNTrainer(dqn.DQNTrainer):
         metrics = {
             "episode_reward_mean": rew_sum / ep_count,
             "episodes_this_iter": ep_count
+        }
+
+        return {"evaluation": metrics}
+
+class CustomA2CTrainer(a3c.a2c.A2CTrainer):
+    """
+    Overrides DQNTrainer from RLLib. Main difference: evaluation is performed step-wise, not episode-wise. 
+    This is done to bring all evaluated frameworks to the common ground (Dopamine implements step-wise evaluation).
+    Episode-wise evaluation makes it hard to decide on iteration's number of steps (consequently, its runtime).
+    """
+    @override(a3c.a2c.A2CTrainer)
+    def _init(self, config, env_creator):
+        super()._init(config, env_creator)
+
+    def set_timesteps_per_iteration(self, timesteps_per_iteration):
+        self.timesteps_per_iteration = timesteps_per_iteration
+
+    @override(Trainer)
+    def _train(self):
+        prev_steps = self.optimizer.num_steps_sampled
+        while self.optimizer.num_steps_sampled - prev_steps < 1000:#self.timesteps_per_iteration:
+            self.optimizer.step()
+        result = self.collect_metrics()
+        result.update(timesteps_this_iter=self.optimizer.num_steps_sampled -
+                      prev_steps)
+        return result
+
+    @override(a3c.a2c.A2CTrainer)
+    def _evaluate(self):
+       # TODO: can't figure out how to evaluate this agent
+        metrics = {
+            "episode_reward_mean": 0.0,
+            "episodes_this_iter": 0.0
         }
 
         return {"evaluation": metrics}
@@ -73,7 +112,8 @@ class CustomAPPOTrainer(ppo.APPOTrainer):
 
 CUSTOM_ALGORITHMS = {
     "DQN": CustomDQNTrainer,
-    "APPO": CustomAPPOTrainer
+    "APPO": CustomAPPOTrainer,
+    "A2C": CustomA2CTrainer,
 }
 
 

@@ -12,10 +12,10 @@ echo
 
 
 
-#bash ./scripts/evaluate_dopamine.sh
+bash ./scripts/evaluate_dopamine.sh
 
 
-bash ./scripts/evaluate_horizon.sh
+#bash ./scripts/evaluate_horizon.sh
 
 
 #bash ./scripts/evaluate_ray.sh

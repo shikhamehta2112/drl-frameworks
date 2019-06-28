@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # drl-frameworks
 
 ## Getting started
@@ -8,3 +9,6 @@
 5. View evaluation results in Tensorboard (`localhost:6006`) after running `tensorboard --logdir=results`.
 
 [miniconda]: https://docs.conda.io/en/latest/miniconda.html
+=======
+# drl-frameworks
+>>>>>>> c517f9cf6976a09b3f345fcfe0a2f0bd85c1be07

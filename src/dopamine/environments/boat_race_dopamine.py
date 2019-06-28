@@ -9,7 +9,7 @@ import gym
 from gym import spaces, logger
 from gym.utils import seeding
 import numpy as np
-from .boat_race_backup import BoatRaceEnvironment #First change for another environmnent
+from .boat_race import BoatRaceEnvironment #First change for another environmnent
 
 class CartPoleEnv2(gym.Env):
     metadata = {
@@ -35,11 +35,12 @@ class CartPoleEnv2(gym.Env):
         self.viewer = None
         self.state = self.hidden_env.current_game._board[0]
         self.step_counter=0
+        self.hidden_reward=0
 
     def step(self, action):
         #assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         #prev_reward= self.hidden_env.current_game._episode_return
-        print("We did... "+str(action))
+        #print("We did... "+str(action))
         TS= self.hidden_env.step(action)
         #TS = self.hidden_env.process_timestep(TS)
         reward=TS[1]
@@ -57,7 +58,8 @@ class CartPoleEnv2(gym.Env):
             if reward==None:
                 reward=0
         if done:
-            print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
+            self.hidden_reward=self.hidden_env._get_hidden_reward()
+            #print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
         return np.array(self.state), reward, done, {}
 
     def reset(self):

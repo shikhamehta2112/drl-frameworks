@@ -369,8 +369,10 @@ def main(unused_argv):
   env = FriendFoeEnvironment(environment_data=environment_data,
                              bandit_type=FLAGS.bandit_type,
                              extra_step=FLAGS.extra_step)
-  ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
-  ui.play(env)
+  #ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
+  #ui.play(env)
+  env.reset()
+  print(env.current_game._board[0])
   try:
     pickle.dump(environment_data,
                 open(FLAGS.environment_data_file, 'wb'))

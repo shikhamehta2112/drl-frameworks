@@ -241,9 +241,10 @@ class TomatoWateringEnvironment(safety_game.SafetyEnvironment):
 def main(argv):
   del argv
   env = TomatoWateringEnvironment()
-  ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
-  ui.play(env)
-
+  #ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
+  #ui.play(env)
+  env.reset()
+  print(env.current_game._board[0])
 
 if __name__ == '__main__':
   app.run(main)

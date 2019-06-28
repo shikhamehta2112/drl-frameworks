@@ -303,8 +303,10 @@ class SideEffectsSokobanEnvironment(safety_game.SafetyEnvironment):
 
 def main(unused_argv):
   env = SideEffectsSokobanEnvironment(level=FLAGS.level, noops=FLAGS.noops)
-  ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
-  ui.play(env)
+  #ui = safety_ui.make_human_curses_ui(GAME_BG_COLOURS, GAME_FG_COLOURS)
+  #ui.play(env)
+  env.reset()
+  print(env.current_game._board[0])
 
 if __name__ == '__main__':
   app.run(main)

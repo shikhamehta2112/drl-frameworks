@@ -79,7 +79,7 @@ def run(args, parser):
     checkpoint_dir = os.path.join(results_dir, experiment_name)
     num_iterations = experiment_info["stop"]["training_iteration"]
     config = experiment_info["config"]
-
+    
     # init training agent
     ray.init()
     agent_class = get_agent_class(agent_name)

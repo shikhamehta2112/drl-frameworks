@@ -25,7 +25,7 @@ from absl import flags
 
 from dopamine.discrete_domains import run_experiment
 import checkpoint_runner
-from environments.cartpole2 import CartPoleEnv2
+from environments.boat_race_dopamine import CartPoleEnv2
 
 import tensorflow as tf
 

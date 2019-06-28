@@ -1,0 +1,42 @@
+# Hyperparameters for a simple Rainbow-style Cartpole agent. The
+# hyperparameters chosen achieve reasonable performance.
+import dopamine.agents.dqn.dqn_agent
+import dopamine.agents.rainbow.rainbow_agent
+import dopamine.discrete_domains.gym_lib
+import dopamine.discrete_domains.atari_lib
+import dopamine.discrete_domains.run_experiment
+import dopamine.replay_memory.prioritized_replay_buffer
+import gin.tf.external_configurables
+import tensorflow
+
+RainbowAgent.observation_shape = (6, 5) #First change for another environmnent
+DQNAgent.observation_dtype = %gym_lib.CARTPOLE_OBSERVATION_DTYPE
+DQNAgent.stack_size = 1
+#DQNAgent.network = %atari_lib.rainbow_network
+RainbowAgent.num_atoms = 51
+RainbowAgent.vmax = 10.
+RainbowAgent.gamma = 0.99
+RainbowAgent.update_horizon = 3
+RainbowAgent.min_replay_history = 500
+RainbowAgent.update_period = 1
+RainbowAgent.target_update_period = 100
+RainbowAgent.epsilon_fn = @dqn_agent.identity_epsilon
+RainbowAgent.replay_scheme = 'prioritized'
+RainbowAgent.tf_device = '/cpu:*'  # use '/cpu:*' for non-GPU version
+RainbowAgent.optimizer = @tf.train.AdamOptimizer()
+
+tf.train.AdamOptimizer.learning_rate = 0.001
+tf.train.AdamOptimizer.epsilon = 0.0003125
+
+create_gym_environment.environment_name = 'Cartpole2'
+create_gym_environment.version = 'v4'
+create_agent.agent_name = 'rainbow'
+CheckpointRunner.create_environment_fn = @gym_lib.create_gym_environment
+CheckpointRunner.num_iterations = 1000000
+CheckpointRunner.training_steps = 1000000
+CheckpointRunner.evaluation_steps = 1000000
+CheckpointRunner.max_steps_per_episode = 100  # Default max episode length.
+CheckpointRunner.checkpoint_freq = 1  # Checkpointing frequency.
+
+WrappedPrioritizedReplayBuffer.replay_capacity = 50000
+WrappedPrioritizedReplayBuffer.batch_size = 128

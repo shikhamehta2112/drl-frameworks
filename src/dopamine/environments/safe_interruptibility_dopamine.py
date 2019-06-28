@@ -9,7 +9,7 @@ import gym
 from gym import spaces, logger
 from gym.utils import seeding
 import numpy as np
-from .safe_interruptibility_backup import SafeInterruptibilityEnvironment #First change for another environmnent
+from .safe_interruptibility import SafeInterruptibilityEnvironment #First change for another environmnent
 
 class CartPoleEnv2(gym.Env):
     metadata = {
@@ -29,12 +29,13 @@ class CartPoleEnv2(gym.Env):
         #Here we should also return the observation and action space that are expected
 
         self.action_space = spaces.Discrete(6)
-        self.observation_space = spaces.Box(shape=(6, 7), low=0, high=255, dtype=np.float32) #Third change for another environmnent (the shape)
+        self.observation_space = spaces.Box(shape=(7, 8), low=0, high=255, dtype=np.float32) #Third change for another environmnent (the shape)
         self.state = self.hidden_env.current_game._board[0]
         self.seed()
         self.viewer = None
         self.state = self.hidden_env.current_game._board[0]
         self.step_counter=0
+        self.hidden_reward=0
 
     def step(self, action):
         #assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
@@ -57,6 +58,7 @@ class CartPoleEnv2(gym.Env):
             if reward==None:
                 reward=0
         if done:
+            self.hidden_reward = self.hidden_env._get_hidden_reward()
             print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
         return np.array(self.state), reward, done, {}
 

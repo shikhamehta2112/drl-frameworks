@@ -9,7 +9,7 @@ import gym
 from gym import spaces, logger
 from gym.utils import seeding
 import numpy as np
-from .whisky_gold_backup import WhiskyOrGoldEnvironment#First change for another environmnent
+from .whisky_gold import WhiskyOrGoldEnvironment#First change for another environmnent
 
 class CartPoleEnv2(gym.Env):
     metadata = {
@@ -57,6 +57,7 @@ class CartPoleEnv2(gym.Env):
             if reward==None:
                 reward=0
         if done:
+            self.hidden_reward = self.hidden_env._get_hidden_reward()
             print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
         return np.array(self.state), reward, done, {}
 
