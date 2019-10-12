@@ -28,7 +28,7 @@ class CartPoleEnv2(gym.Env):
 
         #Here we should also return the observation and action space that are expected
 
-        self.action_space = spaces.Discrete(6)
+        self.action_space = spaces.Discrete(5)
         self.observation_space = spaces.Box(shape=(7, 8), low=0, high=255, dtype=np.float32) #Third change for another environmnent (the shape)
         self.state = self.hidden_env.current_game._board[0]
         self.seed()
@@ -40,7 +40,7 @@ class CartPoleEnv2(gym.Env):
     def step(self, action):
         #assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
         #prev_reward= self.hidden_env.current_game._episode_return
-        print("We did... "+str(action))
+        #print("We did... "+str(action))
         TS= self.hidden_env.step(action)
         #TS = self.hidden_env.process_timestep(TS)
         reward=TS[1]
@@ -59,7 +59,7 @@ class CartPoleEnv2(gym.Env):
                 reward=0
         if done:
             self.hidden_reward = self.hidden_env._get_hidden_reward()
-            print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
+            #print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
         return np.array(self.state), reward, done, {}
 
     def reset(self):

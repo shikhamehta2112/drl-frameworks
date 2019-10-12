@@ -26,9 +26,9 @@ class CartPoleEnv2(gym.Env):
         self.hidden_env = DistributionalShiftEnvironment() #Second change for another environmnent
         self.hidden_env.reset()
 
-        #Here we should also return the observation and action space that are expected
+         #Here we should also return the observation and action space that are expected
 
-        self.action_space = spaces.Discrete(6)
+        self.action_space = spaces.Discrete(5)
         self.observation_space = spaces.Box(shape=(7,9,1), low=0, high=255, dtype=np.float32) #Third change for another environmnent (the shape)
         self.state = (self.hidden_env.current_game._board[0]).reshape(7,9,1)
         self.seed()
@@ -58,9 +58,12 @@ class CartPoleEnv2(gym.Env):
                 reward=0
         if done:
             print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
-        return np.array(self.state), reward, done, {}
+        return np.array(self.state), reward, done, {"hidden_reward":self.hidden_env._get_hidden_reward()}
 
     def reset(self):
+#        if is_testing:
+#          self.hidden_env = DistributionalShiftEnvironment(is_testing=True) #Second change for another environmnent
+#          self.hidden_env.reset()
         self.hidden_env.reset()
         self.state = (self.hidden_env.current_game._board[0]).reshape(7,9,1)
         self.step_counter = 0

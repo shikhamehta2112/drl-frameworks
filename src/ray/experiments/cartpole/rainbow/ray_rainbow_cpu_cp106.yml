@@ -1,34 +1,38 @@
 ray_rainbow_cpu_cp106:
   run: DQN
   env: Cartpole2-v17
-  local_dir: "results/cartpole"  
-  checkpoint_freq: 1
+  local_dir: "src/results/ray/cartpole/rainbow"  
+  checkpoint_freq: 10000
   checkpoint_at_end: True
   # number of iterations
   stop:
-    training_iteration: 500
-  # all other hyperparameters (e.g. length of one iteration)
+    training_iteration: 1000
+    # all other hyperparameters (e.g. length of one iteration)
   config:
-    adam_epsilon: 0.0003125
-    beta_annealing_fraction: 0.2
-    buffer_size: 50000
+    evaluation_num_episodes: 0
+    adam_epsilon: 0.00015
+    buffer_size: 10000
     # we want to evaluate manually, but still need the evaluator
-    evaluation_interval: 1000000
-    exploration_final_eps: 0.0
-    exploration_fraction: .000001
-    final_prioritized_replay_beta: 1.0
-    gamma: 0.99
-    hiddens: [512]
-    learning_starts: 1000
-    lr: .09
-    noisy: False
-    num_atoms: 51
-    num_workers: 0
-    n_step: 3
+    evaluation_interval: 1
+    lr: 0.0000625
+    num_workers: 4
+    #num_envs: 5
+    #num_envs_per_worker: 1
+    remote_worker_envs: False
     prioritized_replay: True
-    prioritized_replay_alpha: 0.5
+    timesteps_per_iteration: 1000 #00 #    # evaluation_num_episodes: 1000
+    train_batch_size: 64
+    hiddens: [100,100]
+    num_atoms: 100
+    gamma: 0.99
+    dueling: True
+    double_q: True
+    n_step: 1
+    target_network_update_freq: 1000
+    exploration_final_eps: 0.01
+    exploration_fraction: 0.9
+    learning_starts: 0
     sample_batch_size: 4
-    schedule_max_timesteps: 2000000
-    target_network_update_freq: 100
-    timesteps_per_iteration: 1000
-    train_batch_size: 128
+    schedule_max_timesteps: 1000000
+    v_min: -50.0
+    v_max: 50.0

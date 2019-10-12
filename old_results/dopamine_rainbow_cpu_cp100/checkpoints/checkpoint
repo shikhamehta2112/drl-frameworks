@@ -1,5 +1,0 @@
-model_checkpoint_path: "tf_ckpt-1999"
-all_model_checkpoint_paths: "tf_ckpt-1996"
-all_model_checkpoint_paths: "tf_ckpt-1997"
-all_model_checkpoint_paths: "tf_ckpt-1998"
-all_model_checkpoint_paths: "tf_ckpt-1999"

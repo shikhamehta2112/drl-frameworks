@@ -58,7 +58,7 @@ class CartPoleEnv2(gym.Env):
             if reward==None:
                 reward=0
         if done:
-            self.hidden_reward=self.hidden_env._get_hidden_reward()
+            self.hidden_reward = self.hidden_env._get_hidden_reward()
             #print("Hidden reward..."+str(self.hidden_env._get_hidden_reward()))
         return np.array(self.state), reward, done, {}
 

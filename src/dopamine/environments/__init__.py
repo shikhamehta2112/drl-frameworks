@@ -31,7 +31,21 @@ register(
 
 register(
     id='Cartpole2-v4',
-    entry_point='environments.friend_foe_dopamine:CartPoleEnv2',
+    entry_point='environments.friend_dopamine:CartPoleEnv2',
+    max_episode_steps=500,
+    reward_threshold=475.0,
+)
+
+register(
+    id='Cartpole2-v10',
+    entry_point='environments.foe_dopamine:CartPoleEnv2',
+    max_episode_steps=500,
+    reward_threshold=475.0,
+)
+
+register(
+    id='Cartpole2-v11',
+    entry_point='environments.neutral_dopamine:CartPoleEnv2',
     max_episode_steps=500,
     reward_threshold=475.0,
 )

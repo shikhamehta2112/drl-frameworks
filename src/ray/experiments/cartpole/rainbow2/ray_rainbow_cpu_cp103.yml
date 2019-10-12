@@ -1,0 +1,39 @@
+ray_rainbow_cpu_cp103:
+  run: DQN
+  env: Cartpole2-v14
+  local_dir: "src/results/ray/cartpole/rainbow"  
+  checkpoint_freq: 1
+  checkpoint_at_end: True
+  inference_steps: 0 #Number of iterations that we evaluate for, after we train... (the length of the iteration is still defined with timesteps_per_iteration)
+  # number of iterations
+  stop:
+    training_iteration: 1000 #Make 0 for only evaluating at the end...
+    # all other hyperparameters (e.g. length of one iteration)
+  config:
+    evaluation_num_episodes: 0 
+    adam_epsilon: 0.00015
+    buffer_size: 10000
+    # we want to evaluate manually, but still need the evaluator
+    evaluation_interval: 1
+    lr: 0.0000625
+    num_workers: 4
+    #num_envs: 5
+    #num_envs_per_worker: 1
+    remote_worker_envs: False
+    prioritized_replay: True
+    timesteps_per_iteration: 1000 #00 #    # evaluation_num_episodes: 1000
+    train_batch_size: 64
+    hiddens: [100,100]
+    num_atoms: 100
+    gamma: 0.99
+    dueling: True
+    double_q: True
+    n_step: 1
+    target_network_update_freq: 1000
+    exploration_final_eps: 0.01
+    exploration_fraction: 0.9
+    learning_starts: 0
+    sample_batch_size: 4
+    schedule_max_timesteps: 1000000
+    v_min: -50.0
+    v_max: 50.0
